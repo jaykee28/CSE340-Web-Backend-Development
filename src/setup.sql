@@ -138,3 +138,47 @@ VALUES
     'Bloemfontein',
     '2026-08-01'
 );
+
+CREATE TABLE category (
+    category_id SERIAL PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO category (category_name)
+VALUES
+('Environmental'),
+('Community Service'),
+('Education');
+
+CREATE TABLE project_category (
+    project_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+
+    PRIMARY KEY (project_id, category_id),
+
+    CONSTRAINT fk_project
+        FOREIGN KEY (project_id)
+        REFERENCES service_project (project_id),
+
+    CONSTRAINT fk_category
+        FOREIGN KEY (category_id)
+        REFERENCES category (category_id)
+);
+
+INSERT INTO project_category (project_id, category_id)
+VALUES
+(1, 2),
+(2, 2),
+(3, 1),
+(4, 3),
+(5, 2),
+(6, 1),
+(7, 1),
+(8, 1),
+(9, 1),
+(10, 2),
+(11, 2),
+(12, 2),
+(13, 3),
+(14, 2),
+(15, 3);
