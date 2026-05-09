@@ -3,12 +3,39 @@
 <main>
     <h1><%= title %></h1>
 
-    <h2>Upcoming Service Projects</h2>
-    <ul>
-        <li>Park Cleanup</li>
-        <li>Food Drive</li>
-        <li>Community Tutoring</li>
-    </ul>
+    <section class="projects-list">
+
+        <% projects.forEach((project) => { %>
+
+            <article class="project-card">
+
+                <h2><%= project.project_title %></h2>
+
+                <p>
+                    <strong>Organization:</strong>
+                    <%= project.organization_name %>
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    <%= project.project_description %>
+                </p>
+
+                <p>
+                    <strong>Location:</strong>
+                    <%= project.project_location %>
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    <%= new Date(project.project_date).toLocaleDateString() %>
+                </p>
+
+            </article>
+
+        <% }) %>
+
+    </section>
 </main>
 
 <%- include('partials/footer') %>
