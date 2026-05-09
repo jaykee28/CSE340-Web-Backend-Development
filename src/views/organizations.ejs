@@ -3,12 +3,28 @@
 <main>
     <h1><%= title %></h1>
 
-    <p>Here are a few of our partner organizations:</p>
-    <ul>
-        <li><img src="/images/brightfuture-logo.png"> BrightFuture Builders</li>
-        <li><img src="/images/greenharvest-logo.png"> GreenHarvest Growers</li>
-        <li><img src="/images/unityserve-logo.png"> UnityServe Volunteers</li>
-    </ul>
+    <section class="organizations-list">
+        <% organizations.forEach((organization) => { %>
+
+            <article class="organization-card">
+                <h2><%= organization.organization_name %></h2>
+
+                <img
+                    src="/images/<%= organization.organization_logo %>"
+                    alt="<%= organization.organization_name %> Logo"
+                    class="organization-logo"
+                >
+
+                <p><%= organization.organization_description %></p>
+
+                <p>
+                    <strong>Email:</strong>
+                    <%= organization.organization_email %>
+                </p>
+            </article>
+
+        <% }) %>
+    </section>
 </main>
 
 <%- include('partials/footer') %>

@@ -2,6 +2,7 @@ import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
+import { getAllOrganizations } from './src/models/organizations.js';
 
 const app = express();
 // Define environment
@@ -24,8 +25,12 @@ app.get('/', (req, res) => {
   res.render('home', { title: 'Home' });
 });
 
-app.get('/organizations', (req, res) => {
-  res.render('organizations', { title: 'Organizations' });
+app.get('/organizations', async (req, res) => {
+    const organizations = await getAllOrganizations();
+
+    const title = 'Our Partner Organizations';
+
+    res.render('organizations', { title, organizations });
 });
 
 app.get('/projects', (req, res) => {
