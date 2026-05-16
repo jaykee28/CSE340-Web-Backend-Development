@@ -7,14 +7,17 @@ import { getAllProjects } from './src/models/projects.js';
 import { getAllCategories } from './src/models/categories.js';
 
 const app = express();
+
 // Define environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Define port
 const PORT = process.env.PORT || 3000;
 
+// Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set EJS as templating engine
@@ -39,10 +42,12 @@ app.use((req, res, next) => {
     next();
 });
 
+// Home route
 app.get('/', (req, res) => {
-  res.render('home', { title: 'Home' });
+    res.render('home', { title: 'Home' });
 });
 
+// Organizations route
 app.get('/organizations', async (req, res) => {
     const organizations = await getAllOrganizations();
 
@@ -51,6 +56,7 @@ app.get('/organizations', async (req, res) => {
     res.render('organizations', { title, organizations });
 });
 
+// Projects route
 app.get('/projects', async (req, res) => {
     const projects = await getAllProjects();
 
@@ -59,6 +65,7 @@ app.get('/projects', async (req, res) => {
     res.render('projects', { title, projects });
 });
 
+// Categories route
 app.get('/categories', async (req, res) => {
     const categories = await getAllCategories();
 
@@ -67,12 +74,55 @@ app.get('/categories', async (req, res) => {
     res.render('categories', { title, categories });
 });
 
+// Test route for 500 errors
+app.get('/test-error', (req, res, next) => {
+    const err = new Error('This is a test error');
+
+    err.status = 500;
+
+    next(err);
+});
+
+// Catch-all route for 404 errors
+app.use((req, res, next) => {
+    const err = new Error('Page Not Found');
+
+    err.status = 404;
+
+    next(err);
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+
+    console.error('Error occurred:', err.message);
+    console.error('Stack trace:', err.stack);
+
+    const status = err.status || 500;
+
+    const template = status === 404 ? '404' : '500';
+
+    const context = {
+        title: status === 404
+            ? 'Page Not Found'
+            : 'Server Error',
+
+        error: err.message,
+        stack: err.stack
+    };
+
+    res.status(status).render(`errors/${template}`, context);
+});
+
+// Start server
 app.listen(PORT, async () => {
-  try {
-    await testConnection();
-    console.log(`Server is running at http://127.0.0.1:${PORT}`);
-    console.log(`Environment: ${NODE_ENV}`);
-  } catch (error) {
-    console.error('Error connecting to the database:', error);
-  }
+    try {
+        await testConnection();
+
+        console.log(`Server is running at http://127.0.0.1:${PORT}`);
+        console.log(`Environment: ${NODE_ENV}`);
+
+    } catch (error) {
+        console.error('Error connecting to the database:', error);
+    }
 });
