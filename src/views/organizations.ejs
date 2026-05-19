@@ -1,30 +1,38 @@
 <%- include('partials/header') %>
 
 <main>
+
     <h1><%= title %></h1>
 
-    <section class="organizations-list">
-        <% organizations.forEach((organization) => { %>
+    <% organizations.forEach((organization) => { %>
 
-            <article class="organization-card">
-                <h2><%= organization.organization_name %></h2>
+        <section class="organization-card">
 
-                <img
-                    src="/images/<%= organization.organization_logo %>"
-                    alt="<%= organization.organization_name %> Logo"
-                    class="organization-logo"
-                >
+            <h2>
+                <a href="/organization/<%= organization.organization_id %>">
+                    <%= organization.organization_name %>
+                </a>
+            </h2>
 
-                <p><%= organization.organization_description %></p>
+            <img
+                src="/images/<%= organization.organization_logo %>"
+                alt="<%= organization.organization_name %> Logo"
+                width="150"
+            >
 
-                <p>
-                    <strong>Email:</strong>
-                    <%= organization.organization_email %>
-                </p>
-            </article>
+            <p>
+                <%= organization.organization_description %>
+            </p>
 
-        <% }) %>
-    </section>
+            <p>
+                <strong>Email:</strong>
+                <%= organization.organization_email %>
+            </p>
+
+        </section>
+
+    <% }) %>
+
 </main>
 
 <%- include('partials/footer') %>
