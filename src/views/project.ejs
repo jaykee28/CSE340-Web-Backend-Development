@@ -27,6 +27,30 @@
         </a>
     </p>
 
+    <section class="project-categories">
+
+        <h2>Categories</h2>
+
+        <% if (categories.length > 0) { %>
+
+            <% categories.forEach((category) => { %>
+
+                <a href="/category/<%= category.category_id %>">
+                    <span>
+                        <%= category.category_name %>
+                    </span>
+                </a>
+
+            <% }) %>
+
+        <% } else { %>
+
+            <p>No categories assigned.</p>
+
+        <% } %>
+
+    </section>
+
 </main>
 
 <%- include('partials/footer') %>

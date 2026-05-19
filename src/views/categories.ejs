@@ -1,19 +1,25 @@
 <%- include('partials/header') %>
 
 <main>
+
     <h1><%= title %></h1>
 
-    <section class="categories-list">
+    <ul>
 
         <% categories.forEach((category) => { %>
 
-            <article class="category-card">
-                <h2><%= category.category_name %></h2>
-            </article>
+            <li>
+
+                <a href="/category/<%= category.category_id %>">
+                    <%= category.category_name %>
+                </a>
+
+            </li>
 
         <% }) %>
 
-    </section>
+    </ul>
+
 </main>
 
 <%- include('partials/footer') %>
