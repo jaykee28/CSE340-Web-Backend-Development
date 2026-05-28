@@ -29,9 +29,20 @@
                 <%= organization.organization_email %>
             </p>
 
-        </section>
+                    router.get(
+                '/new-organization',
+            showNewOrganizationForm
+)               ;
+
+                </section>
 
     <% }) %>
+
+    <p>
+        <a href="/new-organization">
+            Add a new organization
+        </a>
+    </p>
 
 </main>
 

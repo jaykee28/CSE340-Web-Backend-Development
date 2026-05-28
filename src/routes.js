@@ -4,11 +4,13 @@ import { showHomePage } from './controllers/index.js';
 
 import {
     showOrganizationsPage,
-    showOrganizationDetailsPage
+    showOrganizationDetailsPage,
+    showNewOrganizationForm,
+    processNewOrganizationForm
 } from './controllers/organizations.js';
 
 import {
-    showProjectsPage,
+    showProjectsPage,    
     showProjectDetailsPage
 } from './controllers/projects.js';
 
@@ -31,6 +33,16 @@ router.get('/organizations', showOrganizationsPage);
 router.get(
     '/organization/:id',
     showOrganizationDetailsPage
+);
+
+router.get(
+    '/new-organization',
+    showNewOrganizationForm
+);
+
+router.post(
+    '/new-organization',
+    processNewOrganizationForm
 );
 
 // Projects page

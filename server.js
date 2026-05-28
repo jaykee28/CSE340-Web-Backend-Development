@@ -15,6 +15,9 @@ const __dirname = path.dirname(__filename);
 // Define port
 const PORT = process.env.PORT || 3000;
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
