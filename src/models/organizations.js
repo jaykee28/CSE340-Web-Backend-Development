@@ -1,3 +1,4 @@
+
 import db from './db.js';
 
 // Get all organizations
@@ -81,9 +82,40 @@ const createOrganization = async (
     return result.rows[0].organization_id;
 };
 
+const updateOrganization = async (
+    organizationId,
+    name,
+    description,
+    contactEmail,
+    logoFilename
+)=> {
+
+    
+const query = `
+    UPDATE organization
+    SET
+        organization_name = $1,
+        organization_description = $2,
+        organization_email = $3,
+        organization_logo = $4
+    WHERE organization_id = $5;
+    `;
+
+const queryParams = [
+    name,
+    description,
+    contactEmail,
+    logoFilename,
+    organizationId
+    ];
+     await db.query(query, queryParams);
+        
+};
+
 // Export model functions
 export {
     getAllOrganizations,
     getOrganizationDetails,
-    createOrganization
+    createOrganization,
+    updateOrganization
 };
