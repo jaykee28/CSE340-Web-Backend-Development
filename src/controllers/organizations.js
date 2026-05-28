@@ -75,6 +75,11 @@ const processNewOrganizationForm =
             logoFilename
         );
 
+      req.flash(
+    'success',
+    'Organization added successfully!'
+);
+        
     res.redirect(
         `/organization/${organizationId}`
     );

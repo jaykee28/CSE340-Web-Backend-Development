@@ -3,17 +3,33 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { testConnection } from './src/models/db.js';
 import router from './src/routes.js';
+import session from 'express-session';
+import flash from './src/middleware/flash.js';
 
 const app = express();
 
 // Define environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
+const SESSION_SECRET =
+    process.env.SESSION_SECRET;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Define port
 const PORT = process.env.PORT || 3000;
+
+app.use(session({
+    secret: SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+
+    cookie: {
+        maxAge: 60 * 60 * 1000
+    }
+}));
+
+app.use(flash);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
