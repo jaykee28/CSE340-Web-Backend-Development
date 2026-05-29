@@ -90,9 +90,56 @@ const getProjectsByOrganizationId = async (organizationId) => {
     return result.rows;
 };
 
+
+// Create new project
+const createProject = async (
+    title,
+    description,
+    location,
+    date,
+    organizationId
+) => {
+
+    const query = `
+        INSERT INTO service_project (
+            project_title,
+            project_description,
+            project_location,
+            project_date,
+            organization_id
+        )
+
+        VALUES ($1, $2, $3, $4, $5)
+
+        RETURNING project_id;
+    `;
+
+    const queryParams = [
+        title,
+        description,
+        location,
+        date,
+        organizationId
+    ];
+
+    const result =
+        await db.query(query, queryParams);
+
+    if (result.rows.length === 0) {
+
+        throw new Error(
+            'Failed to create project'
+        );
+    }
+
+    return result.rows[0].project_id;
+};
+
+
 // Export model functions
 export {
     getUpcomingProjects,
     getProjectDetails,
-    getProjectsByOrganizationId
+    getProjectsByOrganizationId,
+    createProject
 };

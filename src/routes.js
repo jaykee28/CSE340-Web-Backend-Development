@@ -14,7 +14,9 @@ import {
 
 import {
     showProjectsPage,    
-    showProjectDetailsPage
+    showProjectDetailsPage,
+    showNewProjectForm,
+    processNewProjectForm
 } from './controllers/projects.js';
 
 import {
@@ -67,6 +69,21 @@ router.get(
     '/project/:id',
     showProjectDetailsPage
 );
+
+
+// New project form
+router.get(
+    '/new-project',
+    showNewProjectForm
+);
+
+// Process new project form
+router.post(
+    '/new-project',
+    processNewProjectForm
+);
+
+
 
 // Categories page
 router.get('/categories', showCategoriesPage);
