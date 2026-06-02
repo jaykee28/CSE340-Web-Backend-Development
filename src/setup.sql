@@ -6,6 +6,33 @@ CREATE TABLE organization (
     organization_logo VARCHAR(255) NOT NULL
 );
 
+INSERT INTO organization (
+    organization_name,
+    organization_description,
+    organization_email,
+    organization_logo
+)
+VALUES
+(
+    'BrightFuture Builders',
+    'Building stronger communities through construction and renovation projects.',
+    'info@brightfuture.org',
+    'brightfuture-logo.png'
+),
+(
+    'GreenHarvest Growers',
+    'Promoting environmental sustainability and community gardening initiatives.',
+    'contact@greenharvest.org',
+    'greenharvest-logo.png'
+),
+(
+    'UnityServe Volunteers',
+    'Connecting volunteers with meaningful community service opportunities.',
+    'hello@unityserve.org',
+    'unityserve-logo.png'
+);
+
+
 CREATE TABLE service_project (
     project_id SERIAL PRIMARY KEY,
     organization_id INTEGER NOT NULL,
