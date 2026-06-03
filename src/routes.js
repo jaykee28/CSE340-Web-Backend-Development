@@ -35,6 +35,11 @@ import {
 
 import { testErrorPage } from './controllers/errors.js';
 
+import {
+    showUserRegistrationForm,
+    processUserRegistrationForm
+} from './controllers/users.js';
+
 const router = express.Router();
 
 // Home page
@@ -153,6 +158,16 @@ router.get('/categories', showCategoriesPage);
 router.get(
     '/category/:id',
     showCategoryDetailsPage
+);
+
+router.get(
+    '/register',
+    showUserRegistrationForm
+);
+
+router.post(
+    '/register',
+    processUserRegistrationForm
 );
 
 // Error route
