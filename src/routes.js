@@ -37,7 +37,10 @@ import { testErrorPage } from './controllers/errors.js';
 
 import {
     showUserRegistrationForm,
-    processUserRegistrationForm
+    processUserRegistrationForm,
+    showLoginForm,
+    processLoginForm,
+    processLogout
 } from './controllers/users.js';
 
 const router = express.Router();
@@ -168,6 +171,21 @@ router.get(
 router.post(
     '/register',
     processUserRegistrationForm
+);
+
+router.get(
+    '/login',
+    showLoginForm
+);
+
+router.post(
+    '/login',
+    processLoginForm
+);
+
+router.get(
+    '/logout',
+    processLogout
 );
 
 // Error route
