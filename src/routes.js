@@ -44,7 +44,8 @@ import {
     processLogout,
     requireLogin,
     showDashboard,
-    requireRole
+    requireRole,
+    showUsersPage
 } from './controllers/users.js';
 
 const router = express.Router();
@@ -97,6 +98,7 @@ router.get('/logout', processLogout);
 
 router.get('/dashboard', requireLogin, showDashboard);
 
+router.get('/users', requireRole('admin'), showUsersPage);
 // Error testing
 router.get('/test-error', testErrorPage);
 
