@@ -27,12 +27,17 @@
         </a>
     </p>
 
-        <p>
-    <a href="/edit-project/<%= project.project_id %>">
-        Edit Project
-    </a>
-</p>
+    
+    <% if (
+    user &&
+    user.role_name === 'admin'
+) { %>
 
+    <p>
+        <a href="/edit-project/<%= project.project_id %>">
+            Edit Project
+        </a>
+    </p>
 
     <p>
         <a href="/assign-categories/<%= project.project_id %>">
@@ -40,7 +45,7 @@
         </a>
     </p>
 
-
+<% } %>
 
     <section class="project-categories">
 

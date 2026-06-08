@@ -6,6 +6,7 @@ import router from './src/routes.js';
 import session from 'express-session';
 import flash from './src/middleware/flash.js';
 
+
 const app = express();
 
 // Define environment
@@ -54,16 +55,19 @@ app.use((req, res, next) => {
 
 // Middleware to make NODE_ENV available to all templates
 app.use((req, res, next) => {
-
+    
     res.locals.isLoggedIn = false;
+    res.locals.user = null;
 
     if (
-        req.session &&
-        req.session.user
-    ) {
+    req.session &&
+    req.session.user
+) {
+    console.log('MIDDLEWARE SESSION USER:', req.session.user);
 
-        res.locals.isLoggedIn = true;
-    }
+    res.locals.isLoggedIn = true;
+    res.locals.user = req.session.user;
+}
 
     res.locals.NODE_ENV =
         NODE_ENV;
@@ -117,3 +121,5 @@ app.listen(PORT, async () => {
         console.error('Error connecting to the database:', error);
     }
 });
+
+
