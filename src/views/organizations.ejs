@@ -1,30 +1,58 @@
 <%- include('partials/header') %>
 
 <main>
-    <h1><%= title %></h1>
 
-    <% organizations.forEach((organization) => { %>
-        <section class="organization-card">
+
+<h1><%= title %></h1>
+
+<% if (
+    locals.user &&
+    locals.user.role_name === 'admin'
+) { %>
+
+    <a
+        href="/new-organization"
+        class="action-button"
+    >
+        Add New Organization
+    </a>
+
+<% } %>
+
+<div class="organization-grid">
+
+    <% organizations.forEach(org => { %>
+
+        <article class="organization-card">
+
             <h2>
-                <a href="/organization/<%= organization.organization_id %>">
-                    <%= organization.organization_name %>
+                <a href="/organization/<%= org.organization_id %>">
+                    <%= org.organization_name %>
                 </a>
             </h2>
 
             <img
-                src="/images/<%= organization.organization_logo %>"
-                alt="<%= organization.organization_name %> Logo"
-                width="150"
+                src="/images/<%= org.organization_logo %>"
+                alt="<%= org.organization_name %>"
+                class="organization-logo"
             >
 
-            <p><%= organization.organization_description %></p>
-            <p><strong>Email:</strong> <%= organization.organization_email %></p>
-        </section>
+            <p class="organization-description">
+                <%= org.organization_description %>
+            </p>
+
+            <p class="organization-email">
+                <strong>Email:</strong>
+                <%= org.organization_email %>
+            </p>
+
+        </article>
+
     <% }) %>
 
-    <% if (locals.user && locals.user.role_name === 'admin') { %>
-        <a href="/new-organization">Add a new organization</a>
-    <% } %>
+</div>
+
+
 </main>
 
 <%- include('partials/footer') %>

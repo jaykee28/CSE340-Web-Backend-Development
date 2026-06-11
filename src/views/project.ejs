@@ -27,25 +27,62 @@
         </a>
     </p>
 
-    
-    <% if (
-    user &&
-    user.role_name === 'admin'
-) { %>
+    <% if (isLoggedIn) { %>
 
-    <p>
-        <a href="/edit-project/<%= project.project_id %>">
-            Edit Project
-        </a>
-    </p>
+        <% if (isVolunteer) { %>
 
-    <p>
-        <a href="/assign-categories/<%= project.project_id %>">
-            Edit Categories
-        </a>
-    </p>
+            <p>
+                <strong>
+                    You are volunteering for this project.
+                </strong>
+            </p>
 
-<% } %>
+            <form
+                action="/remove-volunteer/<%= project.project_id %>"
+                method="post"
+            >
+                <button type="submit">
+                    Remove Volunteer Signup
+                </button>
+            </form>
+
+        <% } else { %>
+
+            <form
+                action="/volunteer/<%= project.project_id %>"
+                method="post"
+            >
+                <button type="submit">
+                    Volunteer For This Project
+                </button>
+            </form>
+
+        <% } %>
+
+    <% } else { %>
+
+        <p>
+            <a href="/login">Log in</a>
+            to volunteer for this project.
+        </p>
+
+    <% } %>
+
+    <% if (user && user.role_name === 'admin') { %>
+
+        <p>
+            <a href="/edit-project/<%= project.project_id %>">
+                Edit Project
+            </a>
+        </p>
+
+        <p>
+            <a href="/assign-categories/<%= project.project_id %>">
+                Edit Categories
+            </a>
+        </p>
+
+    <% } %>
 
     <section class="project-categories">
 
@@ -53,7 +90,7 @@
 
         <% if (categories.length > 0) { %>
 
-            <% categories.forEach((category) => { %>
+            <% categories.forEach(category => { %>
 
                 <a href="/category/<%= category.category_id %>">
                     <span>

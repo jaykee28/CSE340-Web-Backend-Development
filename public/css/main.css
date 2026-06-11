@@ -181,3 +181,168 @@ th {
     color: white;
     font-size: 0.9rem;
 }
+
+.dashboard-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+
+    background-color: #1f4c81;
+    color: white;
+
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+.dashboard-link:hover {
+    background-color: #16385f;
+    transform: translateY(-2px);
+}
+
+.dashboard-link:active {
+    transform: translateY(0);
+}
+
+.category-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.category-list li {
+    margin: 0;
+}
+
+.category-card {
+    display: inline-block;
+
+    background: #ffffff;
+    color: #1f4c81;
+
+    text-decoration: none;
+    font-weight: 600;
+
+    padding: 1rem 1.5rem;
+
+    border: 2px solid #1f4c81;
+    border-radius: 8px;
+
+    min-width: 180px;
+    text-align: center;
+
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.2s ease;
+}
+
+.category-card:hover {
+    background-color: #1f4c81;
+    color: #ffffff;
+
+    transform: translateY(-3px);
+}
+
+.organization-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(320px, 1fr));
+
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.organization-card {
+    display: flex;
+    flex-direction: column;
+
+    background: #ffffff;
+
+    padding: 1.75rem;
+    border-radius: 10px;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.08);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.organization-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.organization-card h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.organization-card h2 a {
+    color: #1f4c81;
+    text-decoration: none;
+}
+
+.organization-card h2 a:hover {
+    text-decoration: underline;
+}
+
+.organization-logo {
+    width: 140px;
+    height: 140px;
+
+    object-fit: contain;
+
+    display: block;
+    margin: 0 auto 1.5rem;
+}
+
+.organization-description {
+    flex-grow: 1;
+
+    line-height: 1.7;
+    text-align: center;
+
+    margin-bottom: 1rem;
+}
+
+.organization-email {
+    text-align: center;
+    margin-top: auto;
+}
+
+.action-button {
+    display: inline-block;
+
+    margin: 1rem 0 2rem;
+    padding: 0.8rem 1.5rem;
+
+    background-color: #1f4c81;
+    color: #ffffff;
+
+    text-decoration: none;
+    font-weight: 600;
+
+    border-radius: 6px;
+
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+}
+
+.action-button:hover {
+    background-color: #16385f;
+    transform: translateY(-2px);
+}

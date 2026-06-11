@@ -1,108 +1,110 @@
-
 import {
     getUpcomingProjects,
     getProjectDetails,
     createProject,
-    updateProject
-} from '../models/projects.js';
+    updateProject,
+    addVolunteer,
+    removeVolunteer,
+    isVolunteerForProject
+} from "../models/projects.js";
 
 import {
     getCategoriesByProjectId
-} from '../models/categories.js';
+} from "../models/categories.js";
 
 import {
     getAllOrganizations
-} from '../models/organizations.js';
+} from "../models/organizations.js";
 
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
 // Projects page
 const showProjectsPage = async (req, res) => {
+    const projects = await getUpcomingProjects(
+        NUMBER_OF_UPCOMING_PROJECTS
+    );
 
-    const projects =
-        await getUpcomingProjects(
-            NUMBER_OF_UPCOMING_PROJECTS
-        );
-
-    const title = 'Upcoming Service Projects';
-
-    res.render('projects', {
-        title,
+    res.render("projects", {
+        title: "Upcoming Service Projects",
         projects
     });
 };
 
 // Project details page
 const showProjectDetailsPage = async (req, res) => {
-
-    const projectId = req.params.id;
+    const projectId = Number(req.params.id);
 
     const project =
         await getProjectDetails(projectId);
 
+    if (!project) {
+        return res.status(404).render("404", {
+            title: "Project Not Found"
+        });
+    }
+
     const categories =
         await getCategoriesByProjectId(projectId);
 
-    const title = 'Project Details';
+    let isVolunteer = false;
 
-    res.render('project', {
-        title,
+    if (
+        req.session &&
+        req.session.user
+    ) {
+        isVolunteer =
+            await isVolunteerForProject(
+                req.session.user.user_id,
+                projectId
+            );
+    }
+
+    res.render("project", {
+        title: "Project Details",
         project,
-        categories
+        categories,
+        isVolunteer,
+        user: req.session.user || null,
+        isLoggedIn: !!req.session.user
     });
 };
 
 // Show new project form
-const showNewProjectForm =
-    async (req, res) => {
-
+const showNewProjectForm = async (req, res) => {
     const organizations =
         await getAllOrganizations();
 
-    const title =
-        'Add New Service Project';
-
-    res.render('new-project', {
-        title,
+    res.render("new-project", {
+        title: "Add New Service Project",
         organizations
     });
 };
 
-
 // Show edit project form
-const showEditProjectForm =
-    async (req, res) => {
-
-    const projectId =
-        req.params.id;
+const showEditProjectForm = async (req, res) => {
+    const projectId = Number(req.params.id);
 
     const project =
-        await getProjectDetails(
-            projectId
-        );
+        await getProjectDetails(projectId);
+
+    if (!project) {
+        return res.status(404).render("404", {
+            title: "Project Not Found"
+        });
+    }
 
     const organizations =
         await getAllOrganizations();
 
-    const title =
-        'Edit Service Project';
-
-    res.render(
-        'edit-project',
-        {
-            title,
-            project,
-            organizations
-        }
-    );
+    res.render("edit-project", {
+        title: "Edit Service Project",
+        project,
+        organizations
+    });
 };
 
-
-
 // Process new project form
-const processNewProjectForm =
-    async (req, res) => {
-
+const processNewProjectForm = async (req, res) => {
     const {
         organizationId,
         title,
@@ -120,20 +122,16 @@ const processNewProjectForm =
     );
 
     req.flash(
-        'success',
-        'Project added successfully!'
+        "success",
+        "Project added successfully!"
     );
 
-    res.redirect('/projects');
+    res.redirect("/projects");
 };
 
-
 // Process edit project form
-const processEditProjectForm =
-    async (req, res) => {
-
-    const projectId =
-        req.params.id;
+const processEditProjectForm = async (req, res) => {
+    const projectId = Number(req.params.id);
 
     const {
         organizationId,
@@ -153,8 +151,31 @@ const processEditProjectForm =
     );
 
     req.flash(
-        'success',
-        'Project updated successfully!'
+        "success",
+        "Project updated successfully!"
+    );
+
+    res.redirect(`/project/${projectId}`);
+};
+
+// Volunteer for project
+const processVolunteerSignup =
+    async (req, res) => {
+
+    const projectId =
+        Number(req.params.id);
+
+    const userId =
+        req.session.user.user_id;
+
+    await addVolunteer(
+        userId,
+        projectId
+    );
+
+    req.flash(
+        "success",
+        "You are now volunteering for this project."
     );
 
     res.redirect(
@@ -162,14 +183,38 @@ const processEditProjectForm =
     );
 };
 
+// Remove volunteer signup
+const processVolunteerRemoval =
+    async (req, res) => {
 
+    const projectId =
+        Number(req.params.id);
 
-// Export controller functions
+    const userId =
+        req.session.user.user_id;
+
+    await removeVolunteer(
+        userId,
+        projectId
+    );
+
+    req.flash(
+        "success",
+        "Volunteer signup removed."
+    );
+
+    res.redirect(
+        `/project/${projectId}`
+    );
+};
+
 export {
     showProjectsPage,
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
     showEditProjectForm,
-    processEditProjectForm
+    processEditProjectForm,
+    processVolunteerSignup,
+    processVolunteerRemoval
 };

@@ -181,7 +181,88 @@ const updateProject = async (
     return result.rows[0].project_id;
 };
 
+const addVolunteer = async (
+    userId,
+    projectId
+) => {
 
+    const query = `
+        INSERT INTO volunteer (
+            user_id,
+            project_id
+        )
+        VALUES ($1, $2)
+        ON CONFLICT DO NOTHING;
+    `;
+
+    await db.query(
+        query,
+        [userId, projectId]
+    );
+};
+
+const removeVolunteer = async (
+    userId,
+    projectId
+) => {
+
+    const query = `
+        DELETE FROM volunteer
+        WHERE user_id = $1
+        AND project_id = $2;
+    `;
+
+    await db.query(
+        query,
+        [userId, projectId]
+    );
+};
+
+const isVolunteerForProject = async (
+    userId,
+    projectId
+) => {
+
+    const query = `
+        SELECT 1
+        FROM volunteer
+        WHERE user_id = $1
+        AND project_id = $2;
+    `;
+
+    const result =
+        await db.query(
+            query,
+            [userId, projectId]
+        );
+
+    return result.rows.length > 0;
+};
+
+const getVolunteerProjectsByUserId =
+    async (userId) => {
+
+   const query = `
+        SELECT
+            sp.project_id,
+            sp.project_title,
+            sp.project_date,
+            sp.project_location
+        FROM volunteer v
+        JOIN service_project sp
+            ON v.project_id = sp.project_id
+        WHERE v.user_id = $1
+        ORDER BY sp.project_title;
+    `;
+
+    const result =
+        await db.query(
+            query,
+            [userId]
+        );
+
+    return result.rows;
+};
 
 // Export model functions
 export {
@@ -189,5 +270,9 @@ export {
     getProjectDetails,
     getProjectsByOrganizationId,
     createProject,
-    updateProject
+    updateProject,
+    addVolunteer,
+    removeVolunteer,
+    isVolunteerForProject,
+    getVolunteerProjectsByUserId
 };

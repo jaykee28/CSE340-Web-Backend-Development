@@ -2,33 +2,64 @@
 
 <main>
 
-<h1>Dashboard</h1>
-
-<p>
-    <strong>Name:</strong>
-    <%= name %>
-</p>
-
-<p>
-    <strong>Email:</strong>
-    <%= email %>
-</p>
-
-<p>
-    <strong>Role:</strong>
-    <%= role_name %>
-</p>
-
-<% if (role_name === 'admin') { %>
+    <h1>Dashboard</h1>
 
     <p>
-        <a href="/users">
-            View All Registered Users
-        </a>
+        <strong>Name:</strong>
+        <%= name %>
     </p>
 
-<% } %>
+    <p>
+        <strong>Email:</strong>
+        <%= email %>
+    </p>
 
+    <p>
+        <strong>Role:</strong>
+        <%= role_name %>
+    </p>
+
+    <section>
+
+        <h2>My Volunteer Projects</h2>
+
+        <% if (volunteerProjects && volunteerProjects.length > 0) { %>
+
+            <ul>
+
+                <% volunteerProjects.forEach(project => { %>
+
+                    <li>
+
+                        <a href="/project/<%= project.project_id %>">
+                            <%= project.project_title %>
+                        </a>
+
+                        <form
+                            action="/remove-volunteer/<%= project.project_id %>"
+                            method="post"
+                            style="display:inline;"
+                        >
+                            <button type="submit">
+                                Remove
+                            </button>
+                        </form>
+
+                    </li>
+
+                <% }) %>
+
+            </ul>
+
+        <% } else { %>
+
+            <p>
+                You have not volunteered for any projects yet.
+            </p>
+
+        <% } %>
+
+    </section>
 
 </main>
 
